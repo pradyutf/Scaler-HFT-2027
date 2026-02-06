@@ -16,11 +16,11 @@ public:
         char buffer[256];
         int len = std::snprintf(
             buffer, sizeof(buffer),
-            R"({"instrument":"%s","bid":%.2f,"ask":%.2f,"timestamp_ns":%lu})",
+            R"({"instrument":"%s","bid":%.2f,"ask":%.2f,"timestamp_ns":%llu})",
             data.get_instrument().data(),
             data.bid,
             data.ask,
-            data.timestamp_ns
+            (unsigned long long)data.timestamp_ns
         );
         return std::string(buffer, len);
     }
@@ -29,11 +29,11 @@ public:
     static size_t serialize_to_buffer(const MarketData& data, char* buffer, size_t size) {
         int len = std::snprintf(
             buffer, size,
-            R"({"instrument":"%s","bid":%.2f,"ask":%.2f,"timestamp_ns":%lu})",
+            R"({"instrument":"%s","bid":%.2f,"ask":%.2f,"timestamp_ns":%llu})",
             data.get_instrument().data(),
             data.bid,
             data.ask,
-            data.timestamp_ns
+            (unsigned long long)data.timestamp_ns
         );
         return static_cast<size_t>(len);
     }
@@ -42,11 +42,11 @@ public:
     static bool deserialize(const std::string& json, MarketData& data) {
         char instrument[32];
         double bid, ask;
-        uint64_t timestamp_ns;
+        unsigned long long timestamp_ns;
         
         int matched = std::sscanf(
             json.c_str(),
-            R"({"instrument":"%31[^"]","bid":%lf,"ask":%lf,"timestamp_ns":%lu})",
+            R"({"instrument":"%31[^"]","bid":%lf,"ask":%lf,"timestamp_ns":%llu})",
             instrument,
             &bid,
             &ask,
@@ -57,7 +57,7 @@ public:
             data.set_instrument(instrument);
             data.bid = bid;
             data.ask = ask;
-            data.timestamp_ns = timestamp_ns;
+            data.timestamp_ns = static_cast<uint64_t>(timestamp_ns);
             return true;
         }
         return false;

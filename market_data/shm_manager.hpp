@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdexcept>
 #include <cstring>
+#include <string>
 
 namespace market {
 
