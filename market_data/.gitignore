@@ -1,0 +1,28 @@
+# Build artifacts
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.log
+
+# Executables
+publisher
+consumer_shm
+consumer_tcp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# System
+.DS_Store
